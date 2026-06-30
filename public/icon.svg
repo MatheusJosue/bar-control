@@ -1,12 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Bar Control</title>
   <defs>
-    <linearGradient id="bg" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6ee7b7"/>
-      <stop offset="0.48" stop-color="#67e8f9"/>
+    <linearGradient id="bg" x1="76" y1="54" x2="436" y2="458" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0d1c2d"/>
+      <stop offset="1" stop-color="#051424"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="124" y1="130" x2="380" y2="402" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#42fbf2"/>
       <stop offset="1" stop-color="#38bdf8"/>
     </linearGradient>
+    <linearGradient id="beer" x1="211" y1="238" x2="211" y2="370" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.258 0 0 0 0 0.984 0 0 0 0 0.949 0 0 0 0.28 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="512" height="512" rx="96" fill="#05070a"/>
-  <rect x="56" y="56" width="400" height="400" rx="80" fill="url(#bg)"/>
-  <text x="256" y="292" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="126" font-weight="800" fill="#020617">BC</text>
+
+  <rect width="512" height="512" rx="108" fill="#051424"/>
+  <rect x="36" y="36" width="440" height="440" rx="96" fill="url(#bg)" stroke="#2c3a4c" stroke-width="8"/>
+
+  <circle cx="394" cy="130" r="72" fill="#42fbf2" opacity="0.08"/>
+  <circle cx="120" cy="384" r="86" fill="#42fbf2" opacity="0.06"/>
+
+  <g filter="url(#glow)">
+    <path d="M159 211c0-34 28-62 62-62h76c34 0 62 28 62 62v157c0 34-28 62-62 62h-76c-34 0-62-28-62-62V211z" fill="#0b1a2a" stroke="url(#cyan)" stroke-width="18"/>
+    <path d="M359 244h16c38 0 69 31 69 69s-31 69-69 69h-16v-41h16c15 0 28-13 28-28s-13-28-28-28h-16v-41z" fill="url(#cyan)"/>
+  </g>
+
+  <path d="M204 240h110v128c0 21-17 38-38 38h-34c-21 0-38-17-38-38V240z" fill="url(#beer)"/>
+  <path d="M204 244h110v42c-19 9-37 10-55 2-18-8-36-7-55 1v-45z" fill="#fff7d6"/>
+  <path d="M192 232c0-24 19-43 43-43 16 0 31 8 39 21 8-11 22-18 37-18 25 0 46 20 46 45 0 10-3 19-9 27h-13c-11 0-20 9-20 20v6c0 7-5 12-12 12h-58c-7 0-12-5-12-12v-6c0-11-9-20-20-20h-13c-5-8-8-17-8-27z" fill="#f8fafc"/>
+  <path d="M216 220c-10 0-18-8-18-18 0-8 5-15 13-18 8-3 16-3 24 0 8 3 13 10 13 18 0 10-8 18-18 18h-14z" fill="#eff6ff"/>
+  <path d="M269 214c-12 0-21-10-21-22 0-10 7-19 16-22 8-3 17-3 25 0 10 4 17 13 17 23 0 12-10 21-22 21h-15z" fill="#eff6ff"/>
+  <path d="M321 225c-10 0-18-8-18-18 0-8 5-15 12-18 7-3 15-3 22 0 8 3 13 10 13 18 0 10-8 18-18 18h-11z" fill="#eff6ff"/>
+  <path d="M190 252c24 0 39-9 57-9 22 0 33 12 58 12 20 0 33-7 47-16v19H190v-6z" fill="#f8fafc"/>
+  <path d="M239 314v49M279 314v49" stroke="#7c2d12" stroke-width="13" stroke-linecap="round" opacity="0.27"/>
+
+  <g transform="translate(315 315)">
+    <circle cx="62" cy="62" r="72" fill="#0d1c2d" stroke="#2c3a4c" stroke-width="8"/>
+    <path d="M62 24v14M62 86v14M24 62h14M86 62h14M35 35l10 10M79 79l10 10M89 35 79 45M45 79 35 89" stroke="#42fbf2" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="62" cy="62" r="25" fill="none" stroke="#42fbf2" stroke-width="14"/>
+    <circle cx="62" cy="62" r="7" fill="#42fbf2"/>
+  </g>
+
+  <path d="M112 130h44M134 108v44" stroke="#42fbf2" stroke-width="12" stroke-linecap="round" opacity="0.95"/>
 </svg>
