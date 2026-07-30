@@ -39,8 +39,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#051424] text-zinc-100">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_12%,rgba(66,251,242,0.10),transparent_28%),radial-gradient(circle_at_80%_80%,rgba(66,251,242,0.06),transparent_28%),linear-gradient(#ffffff0a_1px,transparent_1px),linear-gradient(90deg,#ffffff0a_1px,transparent_1px)] bg-[size:auto,auto,18px_18px,18px_18px]" />
+    <div className="min-h-screen bg-background text-zinc-100">
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_12%,rgba(66,251,242,0.12),transparent_28%),radial-gradient(circle_at_85%_15%,rgba(139,92,246,0.08),transparent_32%),radial-gradient(circle_at_80%_85%,rgba(66,251,242,0.07),transparent_28%),linear-gradient(#ffffff0a_1px,transparent_1px),linear-gradient(90deg,#ffffff0a_1px,transparent_1px)] bg-[size:auto,auto,auto,18px_18px,18px_18px]" />
       <Sidebar isCollapsed={isSidebarCollapsed} onToggle={toggleSidebar} />
       <main
         className={`min-h-screen px-4 pb-28 pt-5 transition-[margin] duration-300 md:px-10 md:pb-10 md:pt-8 ${

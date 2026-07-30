@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AlertTriangle, Boxes, Home, Menu } from "lucide-react";
+import { glassChrome } from "@/lib/glass";
 
 const items = [
   { href: "/dashboard", label: "Home", icon: Home },
@@ -15,7 +16,7 @@ export function BottomNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-[#2a4158] bg-[#071624]/95 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-2 shadow-2xl shadow-black/60 backdrop-blur-xl md:hidden">
+    <nav className={`fixed inset-x-0 bottom-0 z-30 border-t px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-2 shadow-2xl shadow-black/60 md:hidden ${glassChrome}`}>
       <div className="mx-auto grid max-w-md grid-cols-4 gap-2">
         {items.map((item) => {
           const Icon = item.icon;
@@ -26,10 +27,10 @@ export function BottomNavigation() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex h-14 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold ${
+              className={`flex h-14 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold transition ${
                 isActive
                   ? "bg-[#42fbf2] text-[#03111f] shadow-lg shadow-[#42fbf2]/20"
-                  : "text-slate-300 hover:bg-[#0d1c2d]"
+                  : "text-slate-300 hover:bg-white/5"
               }`}
             >
               <Icon size={20} aria-hidden="true" />

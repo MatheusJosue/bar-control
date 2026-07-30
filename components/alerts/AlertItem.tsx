@@ -1,14 +1,15 @@
 import { AlertTriangle, MapPin, UserRound } from "lucide-react";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { getStatusAccentClass } from "@/lib/status";
+import { glassCardHover, glassChip } from "@/lib/glass";
 import type { Alert } from "@/types/prep";
 
 export function AlertItem({ alert }: { alert: Alert }) {
   return (
-    <article className="relative overflow-hidden rounded-md border border-[#2a4158] bg-[#0d1c2d] p-4 shadow-lg shadow-black/20 transition hover:border-[#42fbf2]/45">
+    <article className={`relative overflow-hidden p-4 ${glassCardHover}`}>
       <span className={`absolute inset-y-0 left-0 w-1 ${getStatusAccentClass(alert.status)}`} />
       <div className="flex items-start gap-3 pl-2">
-        <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-md bg-[#223146] text-[#fbbf24]">
+        <div className={`mt-1 flex size-10 shrink-0 items-center justify-center rounded-xl text-[#fbbf24] ${glassChip}`}>
           <AlertTriangle size={18} aria-hidden="true" />
         </div>
         <div className="min-w-0 flex-1">

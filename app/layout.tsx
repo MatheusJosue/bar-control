@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Hanken_Grotesk } from "next/font/google";
 import { AppShell } from "@/components/layout/AppShell";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 const hankenSans = Hanken_Grotesk({
@@ -38,7 +39,11 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       className={`${hankenSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-full">
         <AppShell>{children}</AppShell>
       </body>

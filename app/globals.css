@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
+/* Activates the `theme-light:` variant whenever [data-theme="light"] is set
+   on <html> (or an ancestor) — toggled by components/ui/ThemeToggle.tsx. */
+@custom-variant theme-light (&:where([data-theme="light"], [data-theme="light"] *));
+
 :root {
   --background: #051424;
   --foreground: #f4f4f5;
+}
+
+:root[data-theme="light"] {
+  --background: #eef3f8;
+  --foreground: #0f1b2d;
 }
 
 @theme inline {
@@ -20,6 +29,10 @@ body {
 
 html {
   color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
 }
 
 * {
@@ -44,6 +57,12 @@ textarea {
   color-scheme: dark;
 }
 
+[data-theme="light"] input,
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  color-scheme: light;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -56,4 +75,129 @@ textarea {
 ::-webkit-scrollbar-thumb {
   background: rgba(66, 251, 242, 0.35);
   border-radius: 999px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #dbe6ef;
+}
+
+/*
+ * Light-theme escape hatch: most of the app already leans on shared tokens
+ * (lib/glass.ts) or the theme-light: variant, but a handful of Tailwind
+ * utilities for neutral text/surfaces are used ad-hoc across many files.
+ * Overriding the generated utility classes here (scoped to [data-theme=light])
+ * covers those without touching every call site.
+ */
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-zinc-100,
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200 {
+  color: #16233a;
+}
+
+[data-theme="light"] .text-slate-300 {
+  color: #45566e;
+}
+
+[data-theme="light"] .text-slate-400,
+[data-theme="light"] .text-slate-500 {
+  color: #64748b;
+}
+
+[data-theme="light"] .bg-white\/5 {
+  background-color: rgba(15, 27, 45, 0.05);
+}
+
+[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(15, 27, 45, 0.07);
+}
+
+[data-theme="light"] .border-white\/10 {
+  border-color: rgba(15, 27, 45, 0.12);
+}
+
+[data-theme="light"] .border-white\/15 {
+  border-color: rgba(15, 27, 45, 0.16);
+}
+
+/* Bright cyan text/icons (#42fbf2) read fine on the dark canvas but have
+   poor contrast on a light one — darken to a legible teal in light theme.
+   Solid cyan backgrounds (buttons, badges) are untouched since their text
+   sits on top of the accent color itself, not the page background. */
+[data-theme="light"] .text-\[\#42fbf2\] {
+  color: #0e7490;
+}
+
+[data-theme="light"] .text-\[\#42fbf2\]\/70 {
+  color: rgb(14 116 144 / 70%);
+}
+
+[data-theme="light"] .text-\[\#42fbf2\]\/65 {
+  color: rgb(14 116 144 / 65%);
+}
+
+/* Bottom-right toasts would sit under the mobile bottom nav + floating
+   action button — lift them clear on small screens only. */
+@media (max-width: 767px) {
+  .Toastify__toast-container--bottom-right {
+    bottom: 6.5rem !important;
+  }
+}
+
+/* Toastify theme: glass card matching the app's dark/cyan palette */
+.Toastify__toast-container {
+  --toastify-toast-width: 380px;
+}
+
+.Toastify__toast {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(13, 28, 45, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  color: #f4f4f5;
+  font-family: var(--font-hanken-sans), Arial, Helvetica, sans-serif;
+  padding: 0.25rem;
+}
+
+[data-theme="light"] .Toastify__toast {
+  border: 1px solid rgba(15, 27, 45, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 20px 45px rgba(15, 27, 45, 0.15);
+  color: #0f1b2d;
+}
+
+.Toastify__toast-body {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.Toastify__close-button {
+  color: #cbd5e1;
+  opacity: 0.7;
+}
+
+[data-theme="light"] .Toastify__close-button {
+  color: #45566e;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}
+
+.Toastify__progress-bar {
+  background: #42fbf2;
+}
+
+.Toastify__toast-icon svg {
+  fill: currentColor;
+}
+
+.Toastify__toast--success .Toastify__toast-icon svg {
+  color: #42fbf2;
+}
+
+.Toastify__toast--error .Toastify__toast-icon svg {
+  color: #f87171;
 }

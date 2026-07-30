@@ -2,28 +2,63 @@
 
 import { useState } from "react";
 import { Save } from "lucide-react";
+import { toast } from "react-toastify";
+import { apiFetch } from "@/lib/api";
+import { glassInput, glassPanel } from "@/lib/glass";
+import type { Prep } from "@/types/prep";
 
-const inputClass =
-  "h-11 rounded-md border border-[#2a4158] bg-[#081a2d] px-3 text-sm font-medium text-white outline-none transition placeholder:text-slate-500 hover:border-[#42fbf2]/45 focus:border-[#42fbf2] focus:shadow-[0_0_0_3px_rgba(66,251,242,0.10)]";
+const inputClass = `h-11 px-3 text-sm font-medium text-white outline-none ${glassInput}`;
+
+function todayIso(): string {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export function NewPrepForm() {
-  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setMessage("Preparo criado com sucesso. Dados mockados por enquanto.");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const quantity = formData.get("quantity");
+
+    try {
+      setIsSubmitting(true);
+      await apiFetch<Prep>("/api/preps", {
+        method: "POST",
+        body: JSON.stringify({
+          name: formData.get("name"),
+          category: formData.get("category"),
+          area: formData.get("area"),
+          responsible: formData.get("responsible"),
+          madeAt: formData.get("madeAt"),
+          validityDays: formData.get("validityDays"),
+          quantity: quantity ? quantity : undefined,
+          unit: formData.get("unit"),
+          notes: formData.get("notes") || undefined,
+        }),
+      });
+
+      toast.success("Preparo criado com sucesso.");
+      form.reset();
+    } catch {
+      toast.error("Nao foi possivel salvar o preparo. Verifique os campos e tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-[#2a4158] bg-[#0d1c2d] p-4 shadow-xl shadow-black/25 sm:p-6">
+    <form onSubmit={handleSubmit} className={`space-y-5 p-4 sm:p-6 ${glassPanel}`}>
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Produto/preparo
-          <input className={inputClass} placeholder="Xarope de gengibre" required />
+          <input name="name" className={inputClass} placeholder="Xarope de gengibre" required />
         </label>
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Categoria
-          <select className={inputClass} defaultValue="Syrup">
+          <select name="category" className={inputClass} defaultValue="Syrup">
             <option>Syrup</option>
             <option>Puree</option>
             <option>Juice</option>
@@ -34,27 +69,27 @@ export function NewPrepForm() {
         </label>
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Area
-          <input className={inputClass} defaultValue="Bar Principal" />
+          <input name="area" className={inputClass} defaultValue="Bar Principal" required />
         </label>
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Responsavel
-          <input className={inputClass} placeholder="Nome da pessoa" />
+          <input name="responsible" className={inputClass} placeholder="Nome da pessoa" required />
         </label>
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Data de preparo
-          <input className={inputClass} type="date" defaultValue="2026-06-30" />
+          <input name="madeAt" className={inputClass} type="date" defaultValue={todayIso()} required />
         </label>
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Validade em dias
-          <input className={inputClass} type="number" min="1" defaultValue="7" />
+          <input name="validityDays" className={inputClass} type="number" min="1" defaultValue="7" required />
         </label>
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Quantidade
-          <input className={inputClass} type="number" min="0" step="0.1" placeholder="1.5" />
+          <input name="quantity" className={inputClass} type="number" min="0" step="0.1" placeholder="1.5" />
         </label>
         <label className="grid gap-2 text-sm font-bold text-slate-200">
           Unidade
-          <select className={inputClass} defaultValue="L">
+          <select name="unit" className={inputClass} defaultValue="L">
             <option>L</option>
             <option>ml</option>
             <option>kg</option>
@@ -67,23 +102,19 @@ export function NewPrepForm() {
       <label className="grid gap-2 text-sm font-bold text-slate-200">
         Observacoes
         <textarea
-          className="min-h-28 rounded-md border border-[#2a4158] bg-[#081a2d] px-3 py-3 text-sm font-medium text-white outline-none transition placeholder:text-slate-500 hover:border-[#42fbf2]/45 focus:border-[#42fbf2] focus:shadow-[0_0_0_3px_rgba(66,251,242,0.10)]"
+          name="notes"
+          className={`min-h-28 px-3 py-3 text-sm font-medium text-white outline-none ${glassInput}`}
           placeholder="Lote, textura, ajustes de receita ou observacoes da equipe"
         />
       </label>
 
-      {message ? (
-        <div className="rounded-md border border-[#42fbf2]/25 bg-[#42fbf2]/10 p-3 text-sm font-medium text-[#bffffb]">
-          {message}
-        </div>
-      ) : null}
-
       <button
         type="submit"
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#42fbf2] px-4 text-sm font-extrabold text-[#03111f] shadow-lg shadow-[#42fbf2]/20 transition hover:bg-white sm:w-auto"
+        disabled={isSubmitting}
+        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#42fbf2] px-4 text-sm font-extrabold text-[#03111f] shadow-lg shadow-[#42fbf2]/20 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         <Save size={18} aria-hidden="true" />
-        Salvar preparo
+        {isSubmitting ? "Salvando..." : "Salvar preparo"}
       </button>
     </form>
   );

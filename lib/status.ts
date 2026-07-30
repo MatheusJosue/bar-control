@@ -41,19 +41,19 @@ export function getStatusShortLabel(status: PrepStatus): string {
 export function getStatusClass(status: PrepStatus): string {
   switch (status) {
     case "expired":
-      return "border-[#f87171]/40 bg-[#f87171]/15 text-[#fecaca]";
+      return "border-[#f87171]/40 bg-[#f87171]/15 text-[#fecaca] theme-light:text-red-700";
     case "expires_today":
-      return "border-[#fbbf24]/40 bg-[#fbbf24]/15 text-[#fde68a]";
+      return "border-[#fbbf24]/40 bg-[#fbbf24]/15 text-[#fde68a] theme-light:text-amber-700";
     case "expires_soon":
-      return "border-[#fbbf24]/40 bg-[#fbbf24]/15 text-[#fde68a]";
+      return "border-[#fbbf24]/40 bg-[#fbbf24]/15 text-[#fde68a] theme-light:text-amber-700";
     case "valid":
-      return "border-[#42fbf2]/40 bg-[#42fbf2]/15 text-[#bffffb]";
+      return "border-[#42fbf2]/40 bg-[#42fbf2]/15 text-[#bffffb] theme-light:text-cyan-700";
     case "consumed":
-      return "border-[#42fbf2]/40 bg-[#42fbf2]/15 text-[#bffffb]";
+      return "border-[#42fbf2]/40 bg-[#42fbf2]/15 text-[#bffffb] theme-light:text-cyan-700";
     case "discarded":
-      return "border-zinc-300/25 bg-zinc-300/10 text-zinc-200";
+      return "border-zinc-300/25 bg-zinc-300/10 text-zinc-200 theme-light:text-zinc-700";
     default:
-      return "border-zinc-300/25 bg-zinc-300/10 text-zinc-200";
+      return "border-zinc-300/25 bg-zinc-300/10 text-zinc-200 theme-light:text-zinc-700";
   }
 }
 

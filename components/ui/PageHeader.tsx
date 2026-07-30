@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { glassPanel } from "@/lib/glass";
 
 interface PageHeaderProps {
   eyebrow?: string;
@@ -9,8 +10,9 @@ interface PageHeaderProps {
 
 export function PageHeader({ eyebrow, title, description, action }: PageHeaderProps) {
   return (
-    <header className="mb-6 flex flex-col gap-4 rounded-2xl border border-[#2a4158] bg-[#071624] p-4 shadow-xl shadow-black/20 sm:flex-row sm:items-end sm:justify-between">
-      <div>
+    <header className={`relative mb-6 flex flex-col gap-4 overflow-hidden p-4 sm:flex-row sm:items-end sm:justify-between ${glassPanel}`}>
+      <div className="pointer-events-none absolute -right-10 -top-16 size-48 rounded-full bg-[#42fbf2]/10 blur-3xl" />
+      <div className="relative">
         {eyebrow ? (
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-[#42fbf2]">
             {eyebrow}
@@ -21,7 +23,7 @@ export function PageHeader({ eyebrow, title, description, action }: PageHeaderPr
         </h1>
         {description ? <p className="mt-2 max-w-2xl text-sm font-medium text-slate-400">{description}</p> : null}
       </div>
-      {action}
+      <div className="relative">{action}</div>
     </header>
   );
 }

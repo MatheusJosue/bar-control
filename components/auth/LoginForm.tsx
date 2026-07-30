@@ -2,27 +2,34 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { AUTH_STORAGE_KEY } from "@/lib/auth";
+import { supabase } from "@/lib/supabaseClient";
+import { glassInput } from "@/lib/glass";
 
-const inputClass =
-  "h-11 w-full rounded-md border border-[#2a4158] bg-[#081a2d] px-10 text-sm text-white outline-none transition placeholder:text-slate-400/55 hover:border-[#42fbf2]/45 focus:border-[#42fbf2] focus:bg-[#092039] focus:shadow-[0_0_0_3px_rgba(66,251,242,0.10)]";
+const inputClass = `h-11 w-full px-10 text-sm text-white outline-none ${glassInput}`;
 
 export function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("joao@barcontrol.app");
-  const [password, setPassword] = useState("barcontrol");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    window.localStorage.setItem(
-      AUTH_STORAGE_KEY,
-      JSON.stringify({
-        user: email,
-        createdAt: new Date().toISOString(),
-      }),
-    );
+    setIsSubmitting(true);
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+
+    setIsSubmitting(false);
+
+    if (signInError) {
+      toast.error("E-mail ou senha invalidos.");
+      return;
+    }
+
+    toast.success("Login realizado com sucesso.");
     router.replace("/dashboard");
   }
 
@@ -69,7 +76,7 @@ export function LoginForm() {
         <label className="inline-flex items-center gap-2 text-slate-300">
           <input
             type="checkbox"
-            className="size-4 rounded border border-[#2a4158] bg-[#081a2d] accent-[#42fbf2]"
+            className="size-4 rounded border border-white/15 bg-white/5 accent-[#42fbf2]"
           />
           Lembrar
         </label>
@@ -80,21 +87,12 @@ export function LoginForm() {
 
       <button
         type="submit"
-        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-[#42fbf2] px-4 text-sm font-bold text-[#03111f] shadow-[0_14px_34px_rgba(66,251,242,0.20)] transition hover:bg-white"
+        disabled={isSubmitting}
+        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-[#42fbf2] px-4 text-sm font-bold text-[#03111f] shadow-[0_14px_34px_rgba(66,251,242,0.20)] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
       >
-        Entrar
+        {isSubmitting ? "Entrando..." : "Entrar"}
         <ArrowRight size={18} aria-hidden="true" />
       </button>
-
-      <div className="hidden pt-4 text-center lg:block">
-        <p className="text-xs text-slate-400">Ainda nao tem conta no seu bar?</p>
-        <a
-          href="#"
-          className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-md border border-[#42fbf2]/35 text-xs font-bold text-white transition hover:border-[#42fbf2] hover:bg-[#42fbf2]/10"
-        >
-          Solicitar acesso a gerencia
-        </a>
-      </div>
     </form>
   );
 }

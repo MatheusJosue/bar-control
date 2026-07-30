@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
+import { glassInput } from "@/lib/glass";
 
 interface SearchInputProps {
   value: string;
@@ -16,7 +17,7 @@ export function SearchInput({ value, onChange, placeholder = "Buscar" }: SearchI
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="h-11 w-full rounded-md border border-[#2a4158] bg-[#0d1c2d] pl-10 pr-3 text-sm font-medium text-white outline-none transition placeholder:text-slate-500 focus:border-[#42fbf2] focus:shadow-[0_0_0_3px_rgba(66,251,242,0.10)]"
+        className={`h-11 w-full pl-10 pr-3 text-sm font-medium text-white outline-none ${glassInput}`}
       />
     </label>
   );

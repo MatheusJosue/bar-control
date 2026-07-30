@@ -1,5 +1,6 @@
 import { CircleHelp, LifeBuoy, MessageCircle, ShieldCheck } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { glassCard, glassCardHover } from "@/lib/glass";
 
 const supportItems = [
   {
@@ -33,8 +34,8 @@ export default function SupportPage() {
           const Icon = item.icon;
 
           return (
-            <article key={item.title} className="rounded-md border border-[#2a4158] bg-[#0d1c2d] p-4 shadow-lg shadow-black/20">
-              <span className="flex size-10 items-center justify-center rounded-md bg-[#42fbf2]/12 text-[#42fbf2]">
+            <article key={item.title} className={`p-4 ${glassCardHover}`}>
+              <span className="flex size-10 items-center justify-center rounded-xl bg-[#42fbf2]/12 text-[#42fbf2] ring-1 ring-inset ring-white/10">
                 <Icon size={20} aria-hidden="true" />
               </span>
               <h2 className="mt-4 font-extrabold tracking-tight text-white">{item.title}</h2>
@@ -44,9 +45,9 @@ export default function SupportPage() {
         })}
       </div>
 
-      <section className="mt-6 rounded-md border border-[#2a4158] bg-[#0d1c2d] p-4 shadow-lg shadow-black/20">
+      <section className={`mt-6 p-4 ${glassCard}`}>
         <div className="flex items-start gap-3">
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-[#13283d] text-[#42fbf2]">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#13283d]/70 text-[#42fbf2] ring-1 ring-inset ring-white/10 theme-light:bg-black/5">
             <LifeBuoy size={20} aria-hidden="true" />
           </span>
           <div>
