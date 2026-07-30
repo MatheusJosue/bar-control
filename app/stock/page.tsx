@@ -85,6 +85,16 @@ export default function StockPage() {
     }
   }
 
+  async function deleteItem(id: string) {
+    try {
+      await apiFetch(`/api/stock/${id}`, { method: "DELETE" });
+      setItems((current) => current.filter((item) => item.id !== id));
+      toast.success("Item excluido do estoque.");
+    } catch {
+      toast.error("Nao foi possivel excluir o item.");
+    }
+  }
+
   return (
     <div>
       <PageHeader
@@ -121,6 +131,7 @@ export default function StockPage() {
               item={item}
               isPending={pendingId === item.id}
               onAdjust={adjustQuantity}
+              onDelete={deleteItem}
             />
           ))}
         </div>

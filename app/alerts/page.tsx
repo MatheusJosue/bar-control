@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { AlertItem } from "@/components/alerts/AlertItem";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -38,6 +39,16 @@ export default function AlertsPage() {
     };
   }, []);
 
+  async function handleDelete(id: string) {
+    try {
+      await apiFetch(`/api/preps/${id}`, { method: "DELETE" });
+      setAlerts((current) => current.filter((alert) => alert.id !== id));
+      toast.success("Preparo excluido.");
+    } catch {
+      toast.error("Nao foi possivel excluir o preparo.");
+    }
+  }
+
   return (
     <div>
       <PageHeader
@@ -69,7 +80,7 @@ export default function AlertsPage() {
                 <h2 className="text-lg font-semibold text-zinc-100">{section.title}</h2>
                 <div className="grid gap-3">
                   {sectionAlerts.map((alert) => (
-                    <AlertItem key={alert.id} alert={alert} />
+                    <AlertItem key={alert.id} alert={alert} onDelete={handleDelete} />
                   ))}
                 </div>
               </section>

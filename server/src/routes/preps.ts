@@ -95,3 +95,14 @@ prepsRouter.patch("/:id/status", async (req, res) => {
 
   res.json(toPrepResponse(data as PrepRow));
 });
+
+prepsRouter.delete("/:id", async (req, res) => {
+  const { error } = await req.supabase.from("preps").delete().eq("id", req.params.id);
+
+  if (error) {
+    res.status(500).json({ error: error.message });
+    return;
+  }
+
+  res.json({ success: true });
+});

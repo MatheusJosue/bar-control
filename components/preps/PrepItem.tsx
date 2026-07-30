@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Beaker, CalendarDays, MapPin, UserRound } from "lucide-react";
+import { ArrowRight, Beaker, CalendarDays, MapPin, Trash2, UserRound } from "lucide-react";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { formatDaysRemaining } from "@/lib/dates";
 import { glassCardHover, glassChip, glassTrack } from "@/lib/glass";
@@ -37,7 +37,12 @@ function getDaysClass(prep: Prep): string {
   return "text-[#42fbf2] theme-light:text-cyan-700";
 }
 
-export function PrepItem({ prep }: { prep: Prep }) {
+interface PrepItemProps {
+  prep: Prep;
+  onDelete?: (id: string) => void;
+}
+
+export function PrepItem({ prep, onDelete }: PrepItemProps) {
   const progress = getProgress(prep);
 
   return (
@@ -52,7 +57,23 @@ export function PrepItem({ prep }: { prep: Prep }) {
               <h3 className="font-extrabold tracking-tight text-white">{prep.name}</h3>
               <p className="mt-1 text-sm font-medium text-slate-400">{prep.category}</p>
             </div>
-            <StatusBadge status={prep.status} />
+            <div className="flex items-center gap-2">
+              <StatusBadge status={prep.status} />
+              {onDelete ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm(`Excluir "${prep.name}"? Essa acao nao pode ser desfeita.`)) {
+                      onDelete(prep.id);
+                    }
+                  }}
+                  aria-label={`Excluir ${prep.name}`}
+                  className="flex size-7 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-[#f87171]/15 hover:text-[#f87171]"
+                >
+                  <Trash2 size={15} aria-hidden="true" />
+                </button>
+              ) : null}
+            </div>
           </div>
 
           <div className="mt-4 grid gap-2 text-sm font-medium text-slate-300 sm:grid-cols-2 lg:grid-cols-4">

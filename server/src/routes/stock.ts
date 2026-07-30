@@ -95,3 +95,14 @@ stockRouter.patch("/:id/quantity", async (req, res) => {
 
   res.json(toStockItemResponse(data as StockItemRow));
 });
+
+stockRouter.delete("/:id", async (req, res) => {
+  const { error } = await req.supabase.from("stock_items").delete().eq("id", req.params.id);
+
+  if (error) {
+    res.status(500).json({ error: error.message });
+    return;
+  }
+
+  res.json({ success: true });
+});

@@ -94,6 +94,21 @@ export default function PrepDetailPage() {
     }
   }
 
+  async function handleDelete() {
+    if (!prep) return;
+    if (!window.confirm(`Excluir "${prep.name}"? Essa acao nao pode ser desfeita.`)) return;
+
+    try {
+      setIsUpdating(true);
+      await apiFetch(`/api/preps/${prep.id}`, { method: "DELETE" });
+      toast.success("Preparo excluido.");
+      router.push("/preps");
+    } catch {
+      toast.error("Nao foi possivel excluir o preparo.");
+      setIsUpdating(false);
+    }
+  }
+
   const terminalStatuses: PrepStatus[] = ["consumed", "discarded"];
   const isTerminal = prep ? terminalStatuses.includes(prep.status) : false;
 
@@ -266,6 +281,15 @@ export default function PrepDetailPage() {
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 text-sm font-bold text-white backdrop-blur-md transition hover:bg-white/10"
             >
               Ver todos os preparos
+            </button>
+            <button
+              type="button"
+              disabled={isUpdating}
+              onClick={handleDelete}
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-4 text-sm font-bold text-slate-400 transition hover:border-[#f87171]/40 hover:bg-[#f87171]/10 hover:text-[#f87171] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <Trash2 size={16} aria-hidden="true" />
+              Excluir preparo
             </button>
           </div>
         </div>

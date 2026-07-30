@@ -39,6 +39,11 @@ create policy "Authenticated users can update preps"
   using (true)
   with check (true);
 
+create policy "Authenticated users can delete preps"
+  on public.preps for delete
+  to authenticated
+  using (true);
+
 create table if not exists public.stock_items (
   id uuid primary key default gen_random_uuid(),
   name text not null,
@@ -69,3 +74,8 @@ create policy "Authenticated users can update stock items"
   to authenticated
   using (true)
   with check (true);
+
+create policy "Authenticated users can delete stock items"
+  on public.stock_items for delete
+  to authenticated
+  using (true);

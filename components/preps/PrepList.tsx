@@ -21,7 +21,12 @@ const tabs: FilterTab<PrepFilter>[] = [
   { label: "Descartados", value: "discarded" },
 ];
 
-export function PrepList({ preps }: { preps: Prep[] }) {
+interface PrepListProps {
+  preps: Prep[];
+  onDelete?: (id: string) => void;
+}
+
+export function PrepList({ preps, onDelete }: PrepListProps) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<PrepFilter>("all");
 
@@ -58,7 +63,7 @@ export function PrepList({ preps }: { preps: Prep[] }) {
       {filteredPreps.length > 0 ? (
         <div className="grid gap-3">
           {filteredPreps.map((prep) => (
-            <PrepItem key={prep.id} prep={prep} />
+            <PrepItem key={prep.id} prep={prep} onDelete={onDelete} />
           ))}
         </div>
       ) : (

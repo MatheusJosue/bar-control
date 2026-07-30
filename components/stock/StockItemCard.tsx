@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Boxes, Check, Minus, Pencil, Plus, TrendingDown, X } from "lucide-react";
+import { Boxes, Check, Minus, Pencil, Plus, TrendingDown, Trash2, X } from "lucide-react";
 import { glassCardHover, glassInput } from "@/lib/glass";
 import type { StockItem } from "@/types/stock";
 
@@ -9,9 +9,10 @@ interface StockItemCardProps {
   item: StockItem;
   isPending: boolean;
   onAdjust: (id: string, delta: number) => void;
+  onDelete: (id: string) => void;
 }
 
-export function StockItemCard({ item, isPending, onAdjust }: StockItemCardProps) {
+export function StockItemCard({ item, isPending, onAdjust, onDelete }: StockItemCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [draftValue, setDraftValue] = useState(String(item.currentQuantity));
 
@@ -40,13 +41,27 @@ export function StockItemCard({ item, isPending, onAdjust }: StockItemCardProps)
           <h2 className="font-extrabold tracking-tight text-white">{item.name}</h2>
           <p className="mt-1 text-sm font-medium text-slate-400">{item.category}</p>
         </div>
-        <span
-          className={`flex size-10 items-center justify-center rounded-xl ring-1 ring-inset ring-white/10 ${
-            item.status === "low_stock" ? "bg-[#fbbf24]/12 text-[#fbbf24]" : "bg-[#42fbf2]/12 text-[#42fbf2]"
-          }`}
-        >
-          {item.status === "low_stock" ? <TrendingDown size={20} /> : <Boxes size={20} />}
-        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className={`flex size-10 items-center justify-center rounded-xl ring-1 ring-inset ring-white/10 ${
+              item.status === "low_stock" ? "bg-[#fbbf24]/12 text-[#fbbf24]" : "bg-[#42fbf2]/12 text-[#42fbf2]"
+            }`}
+          >
+            {item.status === "low_stock" ? <TrendingDown size={20} /> : <Boxes size={20} />}
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              if (window.confirm(`Excluir "${item.name}"? Essa acao nao pode ser desfeita.`)) {
+                onDelete(item.id);
+              }
+            }}
+            aria-label={`Excluir ${item.name}`}
+            className="flex size-7 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-[#f87171]/15 hover:text-[#f87171]"
+          >
+            <Trash2 size={15} aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
       <div className="mt-5 flex items-end justify-between border-t border-white/10 pt-4">
