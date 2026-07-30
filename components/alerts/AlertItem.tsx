@@ -1,6 +1,7 @@
 import { AlertTriangle, MapPin, Trash2, UserRound } from "lucide-react";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { getStatusAccentClass } from "@/lib/status";
+import { confirmDelete } from "@/lib/confirm";
 import { glassCardHover, glassChip } from "@/lib/glass";
 import type { Alert } from "@/types/prep";
 
@@ -24,8 +25,8 @@ export function AlertItem({ alert, onDelete }: AlertItemProps) {
             {onDelete ? (
               <button
                 type="button"
-                onClick={() => {
-                  if (window.confirm(`Excluir "${alert.productName}"? Essa acao nao pode ser desfeita.`)) {
+                onClick={async () => {
+                  if (await confirmDelete(alert.productName)) {
                     onDelete(alert.id);
                   }
                 }}

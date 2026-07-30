@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Beaker, CalendarDays, MapPin, Trash2, UserRound } from "lucide-react";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { confirmDelete } from "@/lib/confirm";
 import { formatDaysRemaining } from "@/lib/dates";
 import { glassCardHover, glassChip, glassTrack } from "@/lib/glass";
 import type { Prep } from "@/types/prep";
@@ -62,8 +63,8 @@ export function PrepItem({ prep, onDelete }: PrepItemProps) {
               {onDelete ? (
                 <button
                   type="button"
-                  onClick={() => {
-                    if (window.confirm(`Excluir "${prep.name}"? Essa acao nao pode ser desfeita.`)) {
+                  onClick={async () => {
+                    if (await confirmDelete(prep.name)) {
                       onDelete(prep.id);
                     }
                   }}

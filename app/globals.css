@@ -201,3 +201,85 @@ textarea {
 .Toastify__toast--error .Toastify__toast-icon svg {
   color: #f87171;
 }
+
+/* SweetAlert2 confirm dialogs: glass card matching the app's palette */
+.swal2-container {
+  backdrop-filter: blur(2px);
+}
+
+.bar-swal-popup {
+  width: 24rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(13, 28, 45, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  color: #f4f4f5;
+  font-family: var(--font-hanken-sans), Arial, Helvetica, sans-serif;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .bar-swal-popup {
+  border-color: rgba(15, 27, 45, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  color: #0f1b2d;
+  box-shadow: 0 25px 60px rgba(15, 27, 45, 0.2);
+}
+
+.bar-swal-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 0.5rem 0 0;
+}
+
+.bar-swal-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+[data-theme="light"] .bar-swal-text {
+  color: #64748b;
+}
+
+.bar-swal-confirm,
+.bar-swal-cancel {
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: background-color 0.15s ease;
+}
+
+.bar-swal-confirm {
+  border: none;
+  background: #f87171;
+  color: #1a0505;
+}
+
+.bar-swal-confirm:hover {
+  background: #fca5a5;
+}
+
+.bar-swal-cancel {
+  margin-right: 0.625rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f4f4f5;
+}
+
+.bar-swal-cancel:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="light"] .bar-swal-cancel {
+  border-color: rgba(15, 27, 45, 0.12);
+  background: rgba(15, 27, 45, 0.05);
+  color: #0f1b2d;
+}
+
+[data-theme="light"] .bar-swal-cancel:hover {
+  background: rgba(15, 27, 45, 0.1);
+}

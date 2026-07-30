@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Boxes, Check, Minus, Pencil, Plus, TrendingDown, Trash2, X } from "lucide-react";
+import { confirmDelete } from "@/lib/confirm";
 import { glassCardHover, glassInput } from "@/lib/glass";
 import type { StockItem } from "@/types/stock";
 
@@ -51,8 +52,8 @@ export function StockItemCard({ item, isPending, onAdjust, onDelete }: StockItem
           </span>
           <button
             type="button"
-            onClick={() => {
-              if (window.confirm(`Excluir "${item.name}"? Essa acao nao pode ser desfeita.`)) {
+            onClick={async () => {
+              if (await confirmDelete(item.name)) {
                 onDelete(item.id);
               }
             }}

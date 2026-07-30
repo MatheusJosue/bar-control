@@ -20,6 +20,7 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { apiFetch } from "@/lib/api";
+import { confirmDelete } from "@/lib/confirm";
 import { glassCard, glassChip, glassPanel, glassTrack } from "@/lib/glass";
 import { formatDaysRemaining } from "@/lib/dates";
 import type { Prep, PrepStatus } from "@/types/prep";
@@ -96,7 +97,7 @@ export default function PrepDetailPage() {
 
   async function handleDelete() {
     if (!prep) return;
-    if (!window.confirm(`Excluir "${prep.name}"? Essa acao nao pode ser desfeita.`)) return;
+    if (!(await confirmDelete(prep.name))) return;
 
     try {
       setIsUpdating(true);
