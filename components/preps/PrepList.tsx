@@ -61,7 +61,7 @@ export function PrepList({ preps, onDelete }: PrepListProps) {
       <FilterTabs tabs={tabs} value={filter} onChange={setFilter} />
 
       {filteredPreps.length > 0 ? (
-        <div className="grid gap-3">
+        <div className="grid gap-3 xl:grid-cols-2">
           {filteredPreps.map((prep) => (
             <PrepItem key={prep.id} prep={prep} onDelete={onDelete} />
           ))}
